@@ -1,7 +1,5 @@
 # BMI Calculator CLI
 
-## Description  
-
 A simple command-line BMI (Body Mass Index) calculator written in Rust.  
 Users can input their weight and height, and the program outputs their BMI along with the corresponding category.
 
@@ -18,7 +16,7 @@ Users can input their weight and height, and the program outputs their BMI along
 1. Clone the repository:
 
    ```bash  
-    git clone <repo-url>  
+    git clone <https://github.com/Tirthagit/rust-bmi-calculator-program.git>  
     ```  
 
 2. Change directory to project directory
