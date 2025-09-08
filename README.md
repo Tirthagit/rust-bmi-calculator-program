@@ -16,7 +16,7 @@ Users can input their weight and height, and the program outputs their BMI along
 1. Clone the repository:
 
    ```bash  
-    git clone <https://github.com/Tirthagit/rust-bmi-calculator-program.git>  
+    git clone https://github.com/Tirthagit/rust-bmi-calculator-program.git 
     ```  
 
 2. Change directory to project directory
