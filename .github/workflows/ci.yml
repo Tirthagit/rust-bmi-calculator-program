@@ -1,5 +1,19 @@
 name: BMI-Calculator CI
 
+# What one CI file can do:
+
+# Run tests on 3 operating systems simultaneously
+# Generate code coverage and upload to codecov
+# Scan dependencies for security vulnerabilities
+# Run performance benchmarks and compare to baseline
+# Build binaries for Windows, Mac, Linux
+# Create GitHub release with changelog
+# Upload binaries as release assets
+# Send Slack notification on success/failure
+# Deploy to staging environment
+# Run integration tests against live environment
+# Auto-merge if all checks pass
+
 on:
   push:
     branches: [main]
@@ -8,10 +22,22 @@ on:
 
 jobs:
   build:
-    runs-on: "ubuntu-latest"
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
