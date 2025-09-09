@@ -85,7 +85,7 @@ mod tests {
         let result = weight_input_parsing(String::from("65"));
         assert_eq!(result, 65.0);
     }
-    
+
     #[test]
     fn height_input_parsing_valid_number_returns_f64() {
         let result = weight_input_parsing(String::from("1.75"));
