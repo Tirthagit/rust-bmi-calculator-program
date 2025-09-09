@@ -50,7 +50,7 @@ fn bmi_message(bmi: f64) -> &'static str {
     } else if bmi >= 18.5 && bmi < 25.0 {
         "Normal"
     } else if bmi >= 25.0 && bmi < 30.0 {
-        "Overweight!"
+        "Overweight"
     } else if bmi >= 30.0 && bmi < 35.0 {
         "Obese Class I"
     } else if bmi >= 35.0 && bmi < 40.0 {
@@ -74,4 +74,27 @@ fn height_input_parsing(input: String) -> f64 {
         .trim()
         .parse()
         .expect("Please enter a valid a valid height");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn weight_input_parsing_valid_number_returns_f64() {
+        let result = weight_input_parsing(String::from("65"));
+        assert_eq!(result, 65.0);
+    }
+    
+    #[test]
+    fn height_input_parsing_valid_number_returns_f64() {
+        let result = weight_input_parsing(String::from("1.75"));
+        assert_eq!(result, 1.75);
+    }
+
+    #[test]
+    fn returns_message_after_evaluating_bmi_16_5(){
+        let message = bmi_message(16.5);
+        assert_eq!(message, "Moderate Thinness");
+    }
 }
