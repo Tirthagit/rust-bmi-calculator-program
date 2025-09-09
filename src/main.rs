@@ -13,67 +13,89 @@ fn main() {
         .read_line(&mut height_input)
         .expect("Please enter valid height");
 
-    let weight: f64 = weight_input_parsing(weight_input);
-    let height: f64 = height_input_parsing(height_input);
+    let weight: f64 = match weight_input_parsing(weight_input) {
+        Ok(w) => w,
+        Err(msg) => {
+            println!("{msg}");
+            return;
+        }
+    };
 
-    bmi_calculator(weight, height);
+    let height: f64 = match height_input_parsing(height_input) {
+        Ok(h) => h,
+        Err(msg) => {
+            println!("{msg}");
+            return;
+        }
+    };
+
+    match bmi_calculator(weight, height) {
+        Ok(bmi) => {
+            let message = bmi_message(bmi);
+            println!("Your B.M.I is: {bmi} --> {message}");
+        }
+        Err(err_msg) => {
+            println!("{err_msg}")
+        }
+    }
 }
 
 // Weight bondary constants
-const MIN_WEIGHT: f64 = 0.0;
+const MIN_WEIGHT: f64 = 0.1;
 const MAX_WEIGHT: f64 = 500.0;
 
 // Height boundary constants
 const MIN_HEIGHT: f64 = 0.5;
 const MAX_HEIGHT: f64 = 3.0;
 
-fn bmi_calculator(weight: f64, height: f64) {
-    if weight < MIN_WEIGHT || weight > MAX_WEIGHT {
-        println!("Weight cannot be below 0 or above 500!")
+fn bmi_calculator(weight: f64, height: f64) -> Result<f64, &'static str> {
+    if !(MIN_HEIGHT..=MAX_HEIGHT).contains(&height) {
+        return Err("Height cannot be lower than 0.5 metres or higher than 3.0 metres!");
     }
-    if height < MIN_HEIGHT || height > MAX_HEIGHT {
-        println!("Height cannot be lower than 0.5 metres or higher than 3.0 metres!")
+    if !(MIN_WEIGHT..=MAX_WEIGHT).contains(&weight) {
+        return Err("Weight cannot be below 0 or above 500!");
     }
-    let mut bmi = weight / (height * height);
-    let message = bmi_message(bmi);
-    bmi = (bmi * 100.0).round() / 100.0;
-    println!("Your B.M.I is: {bmi} --> {message}");
+    let bmi = compute_bmi(weight, height);
+    Ok(bmi)
+}
+
+fn compute_bmi(weight: f64, height: f64) -> f64 {
+    let bmi = ((weight / (height * height)) * 100.0).round() / 100.0;
+    bmi
 }
 
 fn bmi_message(bmi: f64) -> &'static str {
     if bmi < 16.0 {
         "Severe Thinness"
-    } else if bmi >= 16.0 && bmi < 17.0 {
+    } else if (16.0..17.0).contains(&bmi) {
         "Moderate Thinness"
-    } else if bmi >= 17.0 && bmi < 18.5 {
+    } else if (17.0..18.5).contains(&bmi) {
         "Mild Thinness"
-    } else if bmi >= 18.5 && bmi < 25.0 {
+    } else if (18.5..25.0).contains(&bmi) {
         "Normal"
-    } else if bmi >= 25.0 && bmi < 30.0 {
+    } else if (25.0..30.0).contains(&bmi) {
         "Overweight"
-    } else if bmi >= 30.0 && bmi < 35.0 {
+    } else if (30.0..35.0).contains(&bmi) {
         "Obese Class I"
-    } else if bmi >= 35.0 && bmi < 40.0 {
+    } else if (35.0..40.0).contains(&bmi) {
         "Obese Class II"
-    } else if bmi >= 40.0 {
-        "Obese Class III"
     } else {
-        "Invalid"
+        "Obese Class III"
     }
 }
 
-fn weight_input_parsing(input: String) -> f64 {
+fn weight_input_parsing(input: String) -> Result<f64, &'static str> {
     input
         .trim()
         .parse()
-        .expect("Please enter a valid a valid weight")
+        .map_err(|_| "Please enter a valid a valid weight")
 }
 
-fn height_input_parsing(input: String) -> f64 {
-    return input
+fn height_input_parsing(input: String) -> Result<f64, &'static str> {
+    input
         .trim()
         .parse()
-        .expect("Please enter a valid a valid height");
+        .map_err(|_| "Please enter a valid a valid height")
 }
 
 #[cfg(test)]
@@ -83,18 +105,18 @@ mod tests {
     #[test]
     fn weight_input_parsing_valid_number_returns_f64() {
         let result = weight_input_parsing(String::from("65"));
-        assert_eq!(result, 65.0);
+        assert_eq!(result, Ok(65.0));
     }
 
     #[test]
     fn height_input_parsing_valid_number_returns_f64() {
         let result = weight_input_parsing(String::from("1.75"));
-        assert_eq!(result, 1.75);
+        assert_eq!(result, Ok(1.75));
     }
 
-    // #[test]
-    // fn returns_message_after_evaluating_bmi_16_5(){
-    //     let message = bmi_message(16.5);
-    //     assert_eq!(message, "Moderate Thinness");
-    // }
+    #[test]
+    fn returns_message_after_evaluating_bmi_16_5(){
+        let message = bmi_message(16.5);
+        assert_eq!(message, "Moderate Thinness");
+    }
 }
