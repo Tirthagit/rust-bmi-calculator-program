@@ -1,4 +1,13 @@
 use std::io;
+
+// Weight boundary constants
+const MIN_WEIGHT: f64 = 0.1;
+const MAX_WEIGHT: f64 = 500.0;
+
+// Height boundary constants
+const MIN_HEIGHT: f64 = 0.5;
+const MAX_HEIGHT: f64 = 3.0;
+
 fn main() {
     let mut weight_input = String::new();
     let mut height_input = String::new();
@@ -39,14 +48,6 @@ fn main() {
         }
     }
 }
-
-// Weight bondary constants
-const MIN_WEIGHT: f64 = 0.1;
-const MAX_WEIGHT: f64 = 500.0;
-
-// Height boundary constants
-const MIN_HEIGHT: f64 = 0.5;
-const MAX_HEIGHT: f64 = 3.0;
 
 fn bmi_calculator(weight: f64, height: f64) -> Result<f64, &'static str> {
     if !(MIN_HEIGHT..=MAX_HEIGHT).contains(&height) {
