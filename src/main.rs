@@ -63,10 +63,10 @@ fn bmi_message(bmi: f64) -> &'static str {
 }
 
 fn weight_input_parsing(input: String) -> f64 {
-    return input
+    input
         .trim()
         .parse()
-        .expect("Please enter a valid a valid weight");
+        .expect("Please enter a valid a valid weight")
 }
 
 fn height_input_parsing(input: String) -> f64 {
