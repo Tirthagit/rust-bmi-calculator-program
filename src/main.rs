@@ -60,8 +60,7 @@ fn bmi_calculator(weight: f64, height: f64) -> Result<f64, &'static str> {
 }
 
 fn compute_bmi(weight: f64, height: f64) -> f64 {
-    let bmi = ((weight / (height * height)) * 100.0).round() / 100.0;
-    bmi
+    ((weight / (height * height)) * 100.0).round() / 100.0
 }
 
 fn bmi_message(bmi: f64) -> &'static str {
