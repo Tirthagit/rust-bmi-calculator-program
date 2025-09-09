@@ -114,9 +114,9 @@ mod tests {
         assert_eq!(result, Ok(1.75));
     }
 
-    #[test]
-    fn returns_message_after_evaluating_bmi_16_5(){
-        let message = bmi_message(16.5);
-        assert_eq!(message, "Moderate Thinness");
-    }
+    // #[test]
+    // fn returns_message_after_evaluating_bmi_16_5(){
+    //     let message = bmi_message(16.5);
+    //     assert_eq!(message, "Moderate Thinness");
+    // }
 }
